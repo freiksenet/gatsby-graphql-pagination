@@ -33,7 +33,7 @@ exports.createPages = async ({ graphql, actions }) => {
   })
   const allPaginated = await graphql(
     `
-      query AdultsPaginated($pageSize: Int!) {
+      query AllPaginated($pageSize: Int!) {
         allPersonYamlPaginated(pageSize: $pageSize) {
           nodes {
             pageInfo {
