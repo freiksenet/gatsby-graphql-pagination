@@ -99,6 +99,8 @@ exports.createResolvers = (
           const pageItems = items.slice(page.from, page.to)
           nodes.push(
             createPageNode({
+              typeName: singleTypeNamePaginated,
+              filter: queryTypeFields[allTypeName].args.filter || {},
               pageNo,
               totalPages,
               pageItems,
@@ -150,6 +152,8 @@ function getPage({ totalLength, pageSize, pageNo }) {
 }
 
 function createPageNode({
+  typeName,
+  filter,
   pageNo,
   totalPages,
   totalLength,
@@ -157,11 +161,14 @@ function createPageNode({
   pageSize,
 }) {
   return {
+    id: `${typeName}_pageSize_${pageSize}_filter_${JSON.stringify(
+      filter
+    )}_page_${pageNo}`,
     pageNo: pageNo,
     items: pageItems,
     pageInfo: {
       currentPage: pageNo,
-      hasPreviousPage: pageNo > 0,
+      hasPreviousPage: pageNo > 1,
       hasNextPage: pageNo < totalPages - 1,
       itemCount: pageItems.length,
       pageCount: totalPages,
